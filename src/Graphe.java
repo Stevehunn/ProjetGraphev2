@@ -1,13 +1,24 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * classe Graphe
+ * elle contient toutes les methodes de traitement
+ * du graphe
+ */
 public class Graphe {
+    //variable contenant les noeuds
     LinkedList<Noeud>  noeuds;
     HashMap<Integer,Noeud> hmap;
+    //variable contenant les couleurs des noeuds
     ArrayList<Integer> couleursDispo;
 
 
-
+    /**
+     * Constructeur pour creer un graphe
+     * connaissant sa taille
+     * @param k la taille du graphe à creer
+     */
     public Graphe(int k) {
         noeuds=new LinkedList<Noeud>();
         hmap=new HashMap<Integer,Noeud>();
@@ -22,7 +33,11 @@ public class Graphe {
 
     }
 
-
+    /**
+     * methode permettant d'ajouter un
+     * noeud au graphe
+     * @param n l'identifiant du noeud
+     */
     public void addNoeud(int n) {
             boolean trouve=false;
 
@@ -40,6 +55,13 @@ public class Graphe {
 
     }
 
+    /**
+     * methode permettant de recuperer
+     * un noeud du graphe
+     * @param n l'identifiant du noeud à
+     *          recuperer
+     * @return le noeud correspondant
+     */
     public Noeud getNoeud(int n) {
 
         Noeud noeud=null;
@@ -54,6 +76,12 @@ public class Graphe {
 
     }
 
+    /**
+     * methode permettant d'ajouter un arc
+     * entre deux noeuds
+     * @param x l'indentifiant du premier noeud
+     * @param y l'indentifiant du premier noeud
+     */
     public void addArc(int x,int y) {
         Noeud noeudx=this.getNoeud(x);
         Noeud noeudy=this.getNoeud(y);
@@ -61,10 +89,22 @@ public class Graphe {
             if(!noeudx.hasSuccesseur(y)) {
                 Arc a=new Arc(noeudx,noeudy);
                 noeudx.getSuccesseurs().add(a);
+
+
             }
+
         }
+
+
     }
 
+    /**
+     * Methode permettant d'afficher le
+     * graphe en console
+     * @return une chaine de caractere
+     * contanant les noeuds du graphe
+     * et leurs successeurs
+     */
     public String toString() {
         String graphe=" ";
         for(Noeud n:hmap.values()) {
@@ -75,16 +115,13 @@ public class Graphe {
         return graphe ;
     }
 
-    public LinkedList<Noeud> getNoeuds() {
-        LinkedList<Noeud> noeudsT=new LinkedList<>();
-        for(Noeud n: hmap.values()){
-            noeudsT.add(n);
-        }
 
-
-        return noeuds;
-    }
-
+    /**
+     * Constructeur pour generer un graphe
+     * à partir d'un fichier
+     * @param file le fichier csv contenant les
+     *             arcs du graphe
+     */
     public Graphe(String file) {
         noeuds=new LinkedList<Noeud>();
         hmap=new HashMap<Integer,Noeud>();
@@ -115,8 +152,15 @@ public class Graphe {
         for(int i=0;i< hmap.size();i++){
             couleursDispo.add(i+1);
         }
+
+
     }
-    
+
+    /**
+     * Methode permettant d'exporter un graphe
+     * sous forme de fichier csv
+     */
+
     public void export() {
         String buff = "Source,Target\n";
         String sep = ",";
@@ -138,6 +182,12 @@ public class Graphe {
         }
     }
 
+    /**
+     * methode permettant de generer
+     * la matrice d'adjacence du graphe
+     * @return un tableau à deux dimensions
+     * representant la matrice
+     */
     public   boolean[][]  matriceAdj(){
         boolean[][] adj= new boolean[hmap.size()][hmap.size()];
         for (Noeud noeud : hmap.values()){
@@ -151,6 +201,11 @@ public class Graphe {
         return adj;
     }
 
+    /**
+     * Methode permettant de trier les noeuds
+     * d'un graphe par ordre decroissant
+     * @return
+     */
     public LinkedList<Noeud> listNoeudDegreDeCroissant(){
         LinkedList<Noeud> valeurs=new LinkedList<>();
 
@@ -176,6 +231,14 @@ public class Graphe {
 
 
     }
+
+    /**
+     * methode  permettant de recenser
+     * la couleur des voisins d'un noeud
+     * @param n le noeud initial
+     * @param couleurs la liste des couleurs du graphe
+     * @return la liste des couleurs des voisins de n
+     */
       public LinkedList<Integer> couleursVoisins(Noeud n, int[] couleurs){
         boolean[][] adj=matriceAdj();
         LinkedList<Integer> liste=new LinkedList<>();
@@ -195,6 +258,12 @@ public class Graphe {
        }
  return liste;
     }
+
+    /**
+     * Methode de coloration du graphe
+     * avec l'algorithme du degre decroissant
+     * @return le nombre chromatique du graphe
+     */
     public int degreDecroissant(){
         int[] couleurs=new int[hmap.size()];
 
@@ -224,6 +293,11 @@ public class Graphe {
 
     }
 
+    /**
+     * Methode de coloration du graphe
+     * avec l'algorithme de l'indice croissant
+     * @return le nombre chromatique du graphe
+     */
     public int indiceCroissant(){
      int[] couleurs=new int[hmap.size()];
 
@@ -251,7 +325,11 @@ public class Graphe {
 
     }
 
-
+    /**
+     * methode permettant de permuter
+     * du noeuds aleatoires du graphe
+     * @return la nouvelle liste de noeuds
+     */
      public LinkedList<Noeud> permuterNoeud(){
         int n1= (int) (Math.random()*(hmap.size()-1));
         int n2=(int) (Math.random()*(hmap.size()-1));
@@ -274,7 +352,17 @@ public class Graphe {
 
      return mesNoeuds;
       }
+
+      //liste contenant les noeuds du graphe dans une ordre aleatoire
      LinkedList<String> ordreParcours=new LinkedList<>();
+
+    /**
+     * methode permettant de colorier
+     * un graphe avec une liste de noeuds
+     * dans un ordre quelconque
+     * @param valeurs la liste des noeuds
+     * @return le nombre chromatique
+     */
       public int solutionColoriage(  LinkedList<Noeud> valeurs){
           int[] couleurs=new int[hmap.size()];
           LinkedList<String> ordre=new LinkedList<>();
@@ -301,13 +389,21 @@ public class Graphe {
 
       }
 
+    /**
+     * methode de coloration du graphe
+     * par l'algorithme du recuit simulé
+     * @param temp la temperature
+     * @param alpha le facteur de refroidissement
+     * @return le nombre chromatique
+     */
+
     public int recuitSimule(double temp,double alpha){
         int nci=solutionColoriage(listNoeudDegreDeCroissant());
         int ncv=0;
         LinkedList<String> ordre=ordreParcours;;
         //ArrayList<Integer> solutions=new ArrayList<>();
         //solutions.add(nci);
-        int nbmax=3;
+        int nbmax=5;
         while (temp>0){
             int i=0;
             while(i<nbmax){
@@ -328,19 +424,64 @@ public class Graphe {
 
     }
 
-    public int algoBrown(Noeud n){
-        int[] couleurs=new int[noeuds.size()];
+    /**
+     * methode recursive permettant de
+     * colorier le graphe  avec l'algorithme
+     * du backtrack
+     * @param g le graphe à colorier
+     * @param noeudCourant  le noeud courant
+     * @param couleurs le tableau de couleurs du graphe
+     * @param nbNoeud le nombre de noeuds du graphe
+     * @return true si le graphe est colorié
+     */
+    private boolean backTrackRec(Graphe g,int noeudCourant, int couleurs[],int nbNoeud ){
+        int  nombreSommets=g.hmap.size();
+        if(noeudCourant==nombreSommets){
+             return true;
+        }
 
-        for(int c=0; c<couleursDispo.size();c++){
-            couleurs[n.getId()]=c;
-            if(couleursVoisins(n,couleurs).contains(c)){
+        for(int c=1; c<=nbNoeud;c++){
+            if(!g.couleursVoisins(getNoeud(noeudCourant),couleurs).contains(c)){
+                couleurs[hmap.get(noeudCourant).getId()]=c;
+                if(backTrackRec(g,noeudCourant+1,couleurs,nbNoeud)){
+                    return  true;
+                }
+                couleurs[hmap.get(noeudCourant).getId()]=0;
 
             }
         }
 
-        return 1;
+        return false;
     }
 
+    /**
+     * methode exacte de backtrack
+     * de coloration du graphe
+     * @param nbNoeud le nombre de noeud
+     * @return le nombre chromatique
+     */
+    public int backTrack(int nbNoeud){
+        int[] couleurs=new int[hmap.size()];
+        for (int i=0;i<hmap.size();i++){
+            couleurs[hmap.get(i).getId()]=0;
+        }
+        if(!backTrackRec(this,0,couleurs,nbNoeud)){
+            System.out.println("Pas de solution");
+            return 0;
+        }
+        for(int i=0;i<couleurs.length;i++){
+            System.out.println(hmap.get(i).getId()+" : " +couleurs[hmap.get(i).getId()]+" ");
+        }
+      return max(couleurs);
+    }
+
+
+    /**
+     * methode permettant le calculer
+     * le maximum d'un tableau d'entiers
+     * @param a le tableau d'entier
+     * @return le nombre maximum
+     */
     public int max(int[] a){
         int m = Integer.MIN_VALUE;
         for (int i = 0; i < a.length; i++) {
@@ -349,12 +490,17 @@ public class Graphe {
         }
         return m;
     }
-    // reinitialise les noeuds
-    public void reinitNoeuds() {
-        for(Noeud n : this.getNoeuds()) {
-            n.setCouleur(-1);
-            n.setMark(false);
+
+    //getter pour recuper la liste des noeuds
+    public LinkedList<Noeud> getNoeuds() {
+        LinkedList<Noeud> noeudsT=new LinkedList<>();
+        for(Noeud n: hmap.values()){
+            noeudsT.add(n);
         }
+
+
+        return noeuds;
     }
+
 
 }
