@@ -67,14 +67,7 @@ public class Backtrack extends Graphe {
 
     private boolean backtrackColorv2(Noeud n, int[] couleurs) {
         if (!n.hasUnmarkedSuccessor()) {
-            for (int c = 1; c < noeuds.size(); c++) {
-                if (!couleursVoisins(n, couleurs).contains(c)) {
-                    couleurs[n.getId()] = c;
-                    n.setMark(true);
-                    return true;
-                }
-            }
-            return false;
+            return auxBacktrackColorv2(n, couleurs);
         } else {
             n.setMark(true);
             for (Arc a : n.getSuccesseurs()) {
@@ -84,15 +77,19 @@ public class Backtrack extends Graphe {
                     }
                 }
             }
-            for (int c = 1; c < noeuds.size(); c++) {
-                if (!couleursVoisins(n, couleurs).contains(c)) {
-                    couleurs[n.getId()] = c;
-                    n.setMark(true);
-                    return true;
-                }
-            }
-            return false;
+            return auxBacktrackColorv2(n, couleurs);
         }
+    }
+
+    private boolean auxBacktrackColorv2(Noeud n, int[] couleurs) {
+        for (int c = 1; c < noeuds.size(); c++) {
+            if (!couleursVoisins(n, couleurs).contains(c)) {
+                couleurs[n.getId()] = c;
+                n.setMark(true);
+                return true;
+            }
+        }
+        return false;
     }
 
 
