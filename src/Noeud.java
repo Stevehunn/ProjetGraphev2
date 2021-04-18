@@ -1,16 +1,71 @@
 import java.util.*;
 
+/**
+ * classe Noeud
+ * representant un noeud du graphe
+ */
 public class Noeud {
     private int id;
+    //liste des successeurs du graphe
     LinkedList<Arc> succ=new LinkedList<Arc>();
     boolean mark;
 
-
+    /**
+     * constructeur pour creer le noeud
+     * @param id l'identifiant du noeud
+     */
     public Noeud(int id) {
         this.id=id;
+
     }
 
 
+    /**
+     * methode permettant de determiner
+     * si un noeud est sucesseur d'un autre
+     * @param j l'identifiant du second noeud
+     * @return true si le noeud d'identifiant j
+     * est successeur de this
+     */
+
+    public boolean hasSuccesseur(int j) {
+        LinkedList<Integer> cibles = new LinkedList<Integer>();
+        boolean trouve=false;
+
+        for(Arc c:succ) {
+            cibles.add(c.getCible().getId());
+        }
+        for(int i:cibles) {
+            if(i==j) {
+                trouve=true;
+            }
+
+        }
+        return trouve;
+
+
+    }
+
+    /**
+     * methode permettant d'afficher le noeud
+     * @return la chaine de caractere
+     * representant le noeud
+     */
+
+    public String toString() {
+        String successeurs="";
+        for(Arc n:this.succ) {
+
+            successeurs=successeurs+n.getCible().getId()+" ";
+        }
+        if(!this.succ.isEmpty()) {
+            return id+ " ---> "+ successeurs;
+        }else {
+            return id+"";
+        }
+    }
+
+     /** getters et setters **/
     public int getId() {
         return id;
     }
@@ -33,64 +88,10 @@ public class Noeud {
         this.mark = mark;
     }
 
-    /*---------------définition d'un successeur sur un noeuds----------*/
+
     public void setSuccesseurs(LinkedList<Arc> succ) {
         this.succ = succ;
     }
 
-    /*---------------le noeud a t'il un successeur?----------*/
-    public boolean hasSuccesseur(int j) {
-        LinkedList<Integer> cibles = new LinkedList<Integer>();
-        boolean trouve=false;
-
-        for(Arc c:succ) {
-            cibles.add(c.getCible().getId());
-        }
-        for(int i:cibles) {
-            if(i==j) {
-                trouve=true;
-            }
-
-        }
-        return trouve;
-
-
-    }
-
-    public String toString() {
-        String successeurs="";
-        for(Arc n:this.succ) {
-
-            successeurs=successeurs+n.getCible().getId()+" ";
-        }
-        if(!this.succ.isEmpty()) {
-            return id+ " ---> "+ successeurs;
-        }else {
-            return id+"";
-        }
-    }
-   int couleur;
-    public int getDegre() {
-        int cpt=0;
-        for(Arc arc : succ) {
-            cpt++;
-        }
-        return cpt;
-    }
-
-    /*---------------récupération de l'identifiant de la couleur----------*/
-    public int getCouleur() {
-        return couleur;
-    }
-
-    /*---------------le noeud a t'il une couleur?----------*/
-    public boolean hasCouleur() {
-        return couleur!=-1;
-    }
-
-    /*---------------définir la couleur du noeuds----------*/
-    public void setCouleur(int couleur) {
-        this.couleur = couleur;
-    }
 
 }
