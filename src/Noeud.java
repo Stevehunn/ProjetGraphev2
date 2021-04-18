@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.LinkedList;
 
 /**
  * classe Noeud
@@ -83,15 +83,22 @@ public class Noeud {
         return mark;
     }
 
-
-    public void setMark(boolean mark) {
-        this.mark = mark;
+    /*---------------le noeud a t'il une couleur?----------*/
+    public boolean hasCouleur() {
+        return couleur != -1;
     }
-
 
     public void setSuccesseurs(LinkedList<Arc> succ) {
         this.succ = succ;
     }
 
 
+    public boolean hasUnmarkedSuccessor() {
+        for (Arc a : getSuccesseurs()) {
+            if (!a.getCible().isMark()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -7,12 +7,13 @@ import java.util.*;
  * du graphe
  */
 public class Graphe {
+
     //variable contenant les noeuds
     LinkedList<Noeud>  noeuds;
     HashMap<Integer,Noeud> hmap;
     //variable contenant les couleurs des noeuds
     ArrayList<Integer> couleursDispo;
-
+    LinkedList<String> ordreParcours = new LinkedList<>();
 
     /**
      * Constructeur pour creer un graphe
@@ -20,15 +21,15 @@ public class Graphe {
      * @param k la taille du graphe à creer
      */
     public Graphe(int k) {
-        noeuds=new LinkedList<Noeud>();
-        hmap=new HashMap<Integer,Noeud>();
-        couleursDispo=new ArrayList<>();
-        for(int i=0; i<k;i++) {
-            Noeud noeud=new Noeud(i);
-            if(!noeuds.contains(noeud)&& !hmap.containsKey(i))
+        noeuds = new LinkedList<Noeud>();
+        hmap = new HashMap<Integer, Noeud>();
+        couleursDispo = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            Noeud noeud = new Noeud(i);
+            if (!noeuds.contains(noeud) && !hmap.containsKey(i))
                 this.noeuds.add(noeud);
-                this.hmap.put(i, noeud);
-                couleursDispo.add(i);
+            this.hmap.put(i, noeud);
+            couleursDispo.add(i);
         }
 
     }
@@ -44,15 +45,35 @@ public class Graphe {
             for(Noeud i:noeuds) {
                 if(i.getId()==n) {
                     trouve=true;
+
                 }
 
+                line = br.readLine();
+
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < hmap.size(); i++) {
+            couleursDispo.add(i + 1);
+        }
+    }
+
+    public void addNoeud(int n) {
+        boolean trouve = false;
+
+        for (Noeud i : noeuds) {
+            if (i.getId() == n) {
+                trouve = true;
             }
 
-            if(trouve==false) {
-                this.noeuds.add(new Noeud(n));
-                this.hmap.put(hmap.size(),new Noeud(n));
-            }
+        }
 
+        if (!trouve) {
+            this.noeuds.add(new Noeud(n));
+            this.hmap.put(hmap.size(), new Noeud(n));
+        }
     }
 
     /**
@@ -64,16 +85,14 @@ public class Graphe {
      */
     public Noeud getNoeud(int n) {
 
-        Noeud noeud=null;
-      for(int i:hmap.keySet()){
-          if(hmap.get(i).getId()==n){
-              noeud= hmap.get(i);
-          }
-      }
+        Noeud noeud = null;
+        for (int i : hmap.keySet()) {
+            if (hmap.get(i).getId() == n) {
+                noeud = hmap.get(i);
+            }
+        }
 
         return noeud;
-
-
     }
 
     /**
@@ -90,12 +109,8 @@ public class Graphe {
                 Arc a=new Arc(noeudx,noeudy);
                 noeudx.getSuccesseurs().add(a);
 
-
             }
-
         }
-
-
     }
 
     /**
@@ -106,15 +121,14 @@ public class Graphe {
      * et leurs successeurs
      */
     public String toString() {
-        String graphe=" ";
-        for(Noeud n:hmap.values()) {
+        String graphe = " ";
+        for (Noeud n : hmap.values()) {
 
-            graphe=graphe+"\n"+n.toString();
+            graphe += "\n" + n.toString();
         }
 
-        return graphe ;
+        return graphe;
     }
-
 
     /**
      * Constructeur pour generer un graphe
@@ -160,7 +174,6 @@ public class Graphe {
      * Methode permettant d'exporter un graphe
      * sous forme de fichier csv
      */
-
     public void export() {
         String buff = "Source,Target\n";
         String sep = ",";
@@ -194,12 +207,13 @@ public class Graphe {
             for (Arc a: noeud.getSuccesseurs()){
                 adj[a.getSource().getId()][a.getCible().getId()] = true;
             }
-            for (Arc a: noeud.getSuccesseurs()){
+            for (Arc a : noeud.getSuccesseurs()) {
                 adj[a.getCible().getId()][a.getSource().getId()] = true;
             }
         }
         return adj;
     }
+
 
     /**
      * Methode permettant de trier les noeuds
@@ -208,14 +222,13 @@ public class Graphe {
      */
     public LinkedList<Noeud> listNoeudDegreDeCroissant(){
         LinkedList<Noeud> valeurs=new LinkedList<>();
-
-       LinkedList<Noeud> mesNoeuds=new LinkedList<>();
-        for(Noeud n: hmap.values()){
+        LinkedList<Noeud> mesNoeuds = new LinkedList<>();
+        for (Noeud n : hmap.values()) {
             mesNoeuds.add(n);
 
-           }
-        while (valeurs.size()<hmap.size()) {
-            Noeud max=mesNoeuds.getFirst();
+        }
+        while (valeurs.size() < hmap.size()) {
+            Noeud max = mesNoeuds.getFirst();
             for (int i = 0; i < mesNoeuds.size(); i++) {
 
                 if (mesNoeuds.get(i).getSuccesseurs().size() > max.getSuccesseurs().size()) {
@@ -227,7 +240,7 @@ public class Graphe {
             valeurs.add(max);
         }
 
-     return valeurs;
+        return valeurs;
 
 
     }
@@ -277,21 +290,39 @@ public class Graphe {
                 }
 
             }
-            while (couleursVoisins(x,couleurs).contains(couleur)){
-                couleur=couleur+1;
+            if (adj[n.getId()][i.getId()]) {
+                if (!liste.contains(couleurs[i.getId()])) {
+                    liste.add(couleurs[i.getId()]);
+                }
             }
-            couleurs[x.getId()]=couleur;
         }
-
-        for(int i=0;i<couleurs.length;i++){
-            System.out.println(valeurs.get(i).getId()+" : " +couleurs[valeurs.get(i).getId()]+" ");
-
-        }
-
-
-      return max(couleurs);
-
+        return liste;
     }
+
+    public int degreDecroissant() {
+        int[] couleurs = new int[hmap.size()];
+
+        LinkedList<Noeud> valeurs = listNoeudDegreDeCroissant();
+        boolean[][] adj = matriceAdj();
+        for (Noeud x : valeurs) {
+            int couleur = 1;
+            for (Noeud y : valeurs) {
+                if (adj[x.getId()][y.getId()] && couleurs[y.getId()] == couleur) {
+                    couleur = couleur + 1;
+                }
+            }
+            while (couleursVoisins(x, couleurs).contains(couleur)) {
+                couleur = couleur + 1;
+            }
+            couleurs[x.getId()] = couleur;
+        }
+
+        for (int i = 0; i < couleurs.length; i++) {
+            System.out.println(valeurs.get(i).getId() + " : " + couleurs[valeurs.get(i).getId()] + " ");
+        }
+        return max(couleurs);
+    }
+
 
     /**
      * Methode de coloration du graphe
@@ -300,29 +331,47 @@ public class Graphe {
      */
     public int indiceCroissant(){
      int[] couleurs=new int[hmap.size()];
-
-        boolean[][] adj=matriceAdj();
-            for(Noeud x: hmap.values()){
-                int couleur=1;
-                for(Noeud y: hmap.values()){
-                    if(adj[x.getId()][y.getId()] && couleurs[y.getId()]==couleur){
-                        couleur=couleur+1;
-                    }
+        boolean[][] adj = matriceAdj();
+        for (Noeud x : hmap.values()) {
+            int couleur = 1;
+            for (Noeud y : hmap.values()) {
+                if (adj[x.getId()][y.getId()] && couleurs[y.getId()] == couleur) {
+                    couleur = couleur + 1;
                 }
-                while (couleursVoisins(x,couleurs).contains(couleur)){
-                    couleur=couleur+1;
-                }
-                couleurs[x.getId()]=couleur;
             }
+            while (couleursVoisins(x, couleurs).contains(couleur)) {
+                couleur = couleur + 1;
+            }
+            couleurs[x.getId()] = couleur;
+        }
 
-        for(int i=0;i<couleurs.length;i++){
-            System.out.println(hmap.get(i).getId()+" : " +couleurs[hmap.get(i).getId()]+" ");
+        for (int i = 0; i < couleurs.length; i++) {
+            System.out.println(hmap.get(i).getId() + " : " + couleurs[hmap.get(i).getId()] + " ");
             //System.out.println(couleursVoisins(hmap.get(i),couleurs).toString());
         }
 
         return max(couleurs);
+    }
 
+    public LinkedList<Noeud> permuterNoeud() {
+        int n1 = (int) (Math.random() * (hmap.size() - 1));
+        int n2 = (int) (Math.random() * (hmap.size() - 1));
+        LinkedList<Noeud> mesNoeuds = new LinkedList<>();
+        for (Noeud n : hmap.values()) {
+            mesNoeuds.add(n);
 
+        }
+        // System.out.println(mesNoeuds.toString());
+        Noeud x = mesNoeuds.get(n1);
+        Noeud y = mesNoeuds.get(n2);
+        mesNoeuds.remove(x);
+        mesNoeuds.add(n1, y);
+        mesNoeuds.remove(y);
+        mesNoeuds.add(n2, x);
+
+        //  System.out.println(mesNoeuds.toString());
+
+        return mesNoeuds;
     }
 
     /**
@@ -411,17 +460,14 @@ public class Graphe {
                 if(nci>ncv){
                     nci=ncv;
                     ordre=ordreParcours;
-
                 }
                 i++;
 
             }
-            temp= alpha*temp;
+            temp = alpha * temp;
         }
         System.out.println(ordre.toString());
         return nci;
-
-
     }
 
     /**
@@ -546,16 +592,110 @@ public class Graphe {
         return m;
     }
 
+
+    // reinitialise les noeuds
+    public void reinitNoeuds() {
+        for (Noeud n : this.getNoeuds()) {
+            n.setCouleur(-1);
+            n.setMark(false);
+
     //getter pour recuper la liste des noeuds
     public LinkedList<Noeud> getNoeuds() {
         LinkedList<Noeud> noeudsT=new LinkedList<>();
         for(Noeud n: hmap.values()){
             noeudsT.add(n);
         }
-
-
         return noeuds;
     }
 
 
+    public int backtrack() {
+        int[] couleurs = new int[noeuds.size()];
+        Stack<Noeud> stack = new Stack<>();
+        if (backtrackColor(getNoeud(0), couleurs, stack)) {
+            System.out.println(Arrays.toString(couleurs));
+            System.out.println("Une solution existe.");
+            return 1;
+        } else {
+            System.out.println("Pas de solution.");
+            return 0;
+        }
+    }
+
+    public int backtrack2() {
+        int[] couleurs = new int[noeuds.size()];
+        if (backtrackColorv2(getNoeud(0), couleurs)) {
+            System.out.println(Arrays.toString(couleurs));
+            System.out.println("Une solution existe.");
+            return 1;
+        } else {
+            System.out.println("Pas de solution.");
+            return 0;
+        }
+    }
+
+    private boolean backtrackColor(Noeud n, int[] couleurs, Stack<Noeud> stack) {
+        for (int c = 1; c < noeuds.size(); c++) {
+            if (!couleursVoisins(n, couleurs).contains(c)) {
+                boolean needRollback = false;
+                couleurs[n.getId()] = c;
+                n.setMark(true);
+                stack.add(n);
+                if (!n.hasUnmarkedSuccessor()) {
+                    return true;
+                }
+                for (Arc a : n.getSuccesseurs()) {
+                    if (!a.getCible().isMark()) {
+                        if (!backtrackColor(a.getCible(), couleurs, stack)) {
+                            needRollback = true;
+                            break;
+                        }
+                    }
+                }
+                if (needRollback) {
+                    rollback(n, couleurs, stack);
+                } else {
+                    return true;
+                }
+            }
+        }
+        couleurs[n.getId()] = -1;
+        n.setMark(false);
+        return false;
+    }
+
+    private boolean backtrackColorv2(Noeud n, int[] couleurs) {
+        if (!n.hasUnmarkedSuccessor()) {
+            return auxBacktrackColorv2(n, couleurs);
+        } else {
+            n.setMark(true);
+            for (Arc a : n.getSuccesseurs()) {
+                if (!a.getCible().isMark()) {
+                    if (!backtrackColorv2(a.getCible(), couleurs)) {
+                        return false;
+                    }
+                }
+            }
+            return auxBacktrackColorv2(n, couleurs);
+        }
+    }
+
+    private boolean auxBacktrackColorv2(Noeud n, int[] couleurs) {
+        for (int c = 1; c < noeuds.size(); c++) {
+            if (!couleursVoisins(n, couleurs).contains(c)) {
+                couleurs[n.getId()] = c;
+                n.setMark(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void rollback(Noeud n, int[] couleurs, Stack<Noeud> stack) {
+        Noeud popped = stack.pop();
+        while (popped.equals(n)) {
+            popped.setMark(false);
+            couleurs[popped.getId()] = 0;
+        }
+    }
 }

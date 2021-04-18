@@ -30,8 +30,26 @@ public class Main {
 		g.addArc(0,4);*/
 		//g.export();*/
 
+      		/*----------Graphe avec 6 noeuds non oriente----------*/
+		/*Graphe g = new Graphe(6);
+		g.addArc(0, 1);
+		g.addArc(1, 0);
+		g.addArc(1, 2);
+		g.addArc(2, 1);
+		g.addArc(2, 3);
+		g.addArc(2, 5);
+		g.addArc(3, 2);
+		g.addArc(4, 2);
+		g.addArc(4, 5);
+		g.addArc(5, 4);
+		g.addArc(5, 2);
+		g.addArc(5, 1);
+		g.backtrack();
+		g.reinitNoeuds();
+		g.backtrack2();*/
+      
         //Graphe g1=new Graphe("class Graphe.csv");
-        RandomGraphe g1=new RandomGraphe(10, 0.5F);
+        RandomGraphe g1=new RandomGraphe(10, 0.5);
         System.out.println(g1.toString());
 		System.out.println(" ******************  Coloration Degre croissant     *****************          ");
 		long begin=System.nanoTime();
