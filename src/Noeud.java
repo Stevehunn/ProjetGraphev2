@@ -5,24 +5,25 @@ import java.util.LinkedList;
  * representant un noeud du graphe
  */
 public class Noeud {
-    private int id;
     //liste des successeurs du graphe
-    LinkedList<Arc> succ=new LinkedList<Arc>();
+    LinkedList<Arc> succ = new LinkedList<Arc>();
     boolean mark;
+    private int id;
 
     /**
      * constructeur pour creer le noeud
+     *
      * @param id l'identifiant du noeud
      */
     public Noeud(int id) {
-        this.id=id;
+        this.id = id;
 
     }
-
 
     /**
      * methode permettant de determiner
      * si un noeud est sucesseur d'un autre
+     *
      * @param j l'identifiant du second noeud
      * @return true si le noeud d'identifiant j
      * est successeur de this
@@ -30,14 +31,14 @@ public class Noeud {
 
     public boolean hasSuccesseur(int j) {
         LinkedList<Integer> cibles = new LinkedList<Integer>();
-        boolean trouve=false;
+        boolean trouve = false;
 
-        for(Arc c:succ) {
+        for (Arc c : succ) {
             cibles.add(c.getCible().getId());
         }
-        for(int i:cibles) {
-            if(i==j) {
-                trouve=true;
+        for (int i : cibles) {
+            if (i == j) {
+                trouve = true;
             }
 
         }
@@ -48,50 +49,50 @@ public class Noeud {
 
     /**
      * methode permettant d'afficher le noeud
+     *
      * @return la chaine de caractere
      * representant le noeud
      */
 
     public String toString() {
-        String successeurs="";
-        for(Arc n:this.succ) {
+        String successeurs = "";
+        for (Arc n : this.succ) {
 
-            successeurs=successeurs+n.getCible().getId()+" ";
+            successeurs = successeurs + n.getCible().getId() + " ";
         }
-        if(!this.succ.isEmpty()) {
-            return id+ " ---> "+ successeurs;
-        }else {
-            return id+"";
+        if (!this.succ.isEmpty()) {
+            return id + " ---> " + successeurs;
+        } else {
+            return id + "";
         }
     }
 
-     /** getters et setters **/
+    /**
+     * getters et setters
+     **/
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
-        this.id=id;
+        this.id = id;
     }
 
-
-    public 	LinkedList<Arc> getSuccesseurs(){
+    public LinkedList<Arc> getSuccesseurs() {
         return this.succ;
-    }
-
-    public boolean isMark() {
-        return mark;
-    }
-
-    /*---------------le noeud a t'il une couleur?----------*/
-    public boolean hasCouleur() {
-        return couleur != -1;
     }
 
     public void setSuccesseurs(LinkedList<Arc> succ) {
         this.succ = succ;
     }
 
+    public boolean isMark() {
+        return mark;
+    }
+
+    public void setMark(boolean mark) {
+        this.mark = mark;
+    }
 
     public boolean hasUnmarkedSuccessor() {
         for (Arc a : getSuccesseurs()) {
