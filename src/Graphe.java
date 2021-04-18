@@ -558,7 +558,12 @@ public class Graphe {
         return noeuds;
     }
 
-
+    /**
+     * methode permettant d'utiliser
+     * la méthode backtrack v1
+     *
+     * @return la solution trouvé ou annonce qu'il n'y a pas de solution
+     */
     public int backtrack() {
         int[] couleurs = new int[noeuds.size()];
         Stack<Noeud> stack = new Stack<>();
@@ -572,6 +577,12 @@ public class Graphe {
         }
     }
 
+    /**
+     * methode permettant d'utiliser
+     * la méthode backtrack v2
+     *
+     * @return la solution trouvé ou annonce qu'il n'y a pas de solution
+     */
     public int backtrack2() {
         int[] couleurs = new int[noeuds.size()];
         if (backtrackColorv2(getNoeud(0), couleurs)) {
@@ -584,6 +595,14 @@ public class Graphe {
         }
     }
 
+    /**
+     * methode permettant de parcourir le graphe
+     *
+     * @param n
+     * @param couleurs
+     * @param stack
+     * @return
+     */
     private boolean backtrackColor(Noeud n, int[] couleurs, Stack<Noeud> stack) {
         for (int c = 1; c < noeuds.size(); c++) {
             if (!couleursVoisins(n, couleurs).contains(c)) {
@@ -614,6 +633,13 @@ public class Graphe {
         return false;
     }
 
+    /**
+     * methode permettant de parcourir le graphe
+     *
+     * @param n
+     * @param couleurs
+     * @return
+     */
     private boolean backtrackColorv2(Noeud n, int[] couleurs) {
         if (!n.hasUnmarkedSuccessor()) {
             return auxBacktrackColorv2(n, couleurs);
@@ -641,6 +667,14 @@ public class Graphe {
         return false;
     }
 
+    /**
+     * methode permettant de revenir en arrière
+     * pour la methode backtrack v1
+     *
+     * @param n
+     * @param couleurs
+     * @param stack
+     */
     private void rollback(Noeud n, int[] couleurs, Stack<Noeud> stack) {
         Noeud popped = stack.pop();
         while (popped.equals(n)) {

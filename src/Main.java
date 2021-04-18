@@ -48,6 +48,7 @@ public class Main {
 		g.reinitNoeuds();
 		g.backtrack2();*/
 
+		System.out.println(" ******************  Coloration Backtrack v1 et v2    *****************          ");
 		//Graphe g1=new Graphe("class Graphe.csv");
 		RandomGraphe g1 = new RandomGraphe(10, 0.5, false);
 		System.out.println(g1.toString());
@@ -88,7 +89,6 @@ public class Main {
 		//System.out.println(" ******************  Coloration Backtracking sudoku    *****************        ");
 		//System.out.println(s.backTrack(s.hmap.size()));
 		//System.out.println("\nnombre chromatique: "+s.recuitSimule(1.5,0.2));
-
 
 	}
 
