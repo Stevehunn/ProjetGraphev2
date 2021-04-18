@@ -560,7 +560,7 @@ public class Graphe {
 
     /**
      * methode permettant d'utiliser
-     * la méthode backtrack v1
+     * la méthode backtrack
      *
      * @return la solution trouvé ou annonce qu'il n'y a pas de solution
      */
@@ -569,28 +569,10 @@ public class Graphe {
         Stack<Noeud> stack = new Stack<>();
         if (backtrackColor(getNoeud(0), couleurs, stack)) {
             System.out.println(Arrays.toString(couleurs));
-            System.out.println("Une solution existe.");
-            return 1;
+            //System.out.println("Une solution existe.");
+            return max(couleurs);
         } else {
-            System.out.println("Pas de solution.");
-            return 0;
-        }
-    }
-
-    /**
-     * methode permettant d'utiliser
-     * la méthode backtrack v2
-     *
-     * @return la solution trouvé ou annonce qu'il n'y a pas de solution
-     */
-    public int backtrack2() {
-        int[] couleurs = new int[noeuds.size()];
-        if (backtrackColorv2(getNoeud(0), couleurs)) {
-            System.out.println(Arrays.toString(couleurs));
-            System.out.println("Une solution existe.");
-            return 1;
-        } else {
-            System.out.println("Pas de solution.");
+            //System.out.println("Pas de solution.");
             return 0;
         }
     }
@@ -634,42 +616,8 @@ public class Graphe {
     }
 
     /**
-     * methode permettant de parcourir le graphe
-     *
-     * @param n
-     * @param couleurs
-     * @return
-     */
-    private boolean backtrackColorv2(Noeud n, int[] couleurs) {
-        if (!n.hasUnmarkedSuccessor()) {
-            return auxBacktrackColorv2(n, couleurs);
-        } else {
-            n.setMark(true);
-            for (Arc a : n.getSuccesseurs()) {
-                if (!a.getCible().isMark()) {
-                    if (!backtrackColorv2(a.getCible(), couleurs)) {
-                        return false;
-                    }
-                }
-            }
-            return auxBacktrackColorv2(n, couleurs);
-        }
-    }
-
-    private boolean auxBacktrackColorv2(Noeud n, int[] couleurs) {
-        for (int c = 1; c < noeuds.size(); c++) {
-            if (!couleursVoisins(n, couleurs).contains(c)) {
-                couleurs[n.getId()] = c;
-                n.setMark(true);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * methode permettant de revenir en arrière
-     * pour la methode backtrack v1
+     * pour la methode backtrack
      *
      * @param n
      * @param couleurs

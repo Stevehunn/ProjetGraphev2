@@ -48,22 +48,27 @@ public class Main {
 		g.reinitNoeuds();
 		g.backtrack2();*/
 
-		System.out.println(" ******************  Coloration Backtrack v1 et v2    *****************          ");
 		//Graphe g1=new Graphe("class Graphe.csv");
 		RandomGraphe g1 = new RandomGraphe(10, 0.5, false);
 		System.out.println(g1.toString());
+		System.out.println(" ******************  Coloration Backtrack v1    *****************          ");
+		long begin0 = System.nanoTime();
+		System.out.println("\nnombre chromatique: " + g1.backtrack());
+		long end0 = System.nanoTime();
+		double time0 = end0 - begin0;
+		System.out.println(time0);
 		System.out.println(" ******************  Coloration Degre croissant     *****************          ");
 		long begin = System.nanoTime();
 		System.out.println("\nnombre chromatique: " + g1.degreDecroissant());
 		long end = System.nanoTime();
-		float time = end - begin;
+		double time = end - begin;
 		System.out.println(time);
 		System.out.println(" ******************  Coloration indice croissant    *****************        ");
 		long begin1 = System.nanoTime();
 		System.out.println("\nnombre chromatique: " + g1.indiceCroissant());
 		long end1 = System.nanoTime();
 
-		float time1 = end1 - begin1;
+		double time1 = end1 - begin1;
 		System.out.println(time1);
 
 		System.out.println(" ******************  Coloration Recuit Simulé    *****************        ");
@@ -71,7 +76,7 @@ public class Main {
 		System.out.println(g1.recuitSimule(1.5, 0.5));
 		long end2 = System.nanoTime();
 
-		float time2 = end2 - begin2;
+		double time2 = end2 - begin2;
 		System.out.println(time2);
 
 		System.out.println(" ******************  Coloration Backtracking    *****************        ");
@@ -80,7 +85,7 @@ public class Main {
 		System.out.println(g1.backTrack(g1.hmap.size()));
 		long end3 = System.nanoTime();
 
-		float time3 = end3 - begin3;
+		double time3 = end3 - begin3;
 		System.out.println(time3);
 
 
