@@ -38,7 +38,7 @@ public class Main {
 		g.addArc(0,5);*/
 
 		/*----------Graphe avec 6 noeuds non oriente----------*/
-		Backtrack g = new Backtrack(6);
+		Graphe g = new Graphe(6);
 		g.addArc(0, 1);
 		g.addArc(1, 0);
 		g.addArc(1, 2);
@@ -51,9 +51,9 @@ public class Main {
 		g.addArc(5, 4);
 		g.addArc(5, 2);
 		g.addArc(5, 1);
-		g.solve();
+		g.backtrack();
 		g.reinitNoeuds();
-		g.solve2();
+		g.backtrack2();
 
 		/*-------Graphe avec 100 noeuds-------*/
 //    	g=new Graphe(100);
