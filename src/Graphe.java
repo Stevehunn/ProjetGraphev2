@@ -475,6 +475,61 @@ public class Graphe {
       return max(couleurs);
     }
 
+	public int smallestLast() {
+		 int[] couleurs=new int[hmap.size()];
+
+			LinkedList<Noeud> valeurs=listNoeudDegreCroissant();
+			boolean[][] adj=matriceAdj();
+			for(Noeud x: valeurs){
+				int couleur=1;
+				for(Noeud y: valeurs){
+					if(adj[x.getId()][y.getId()] && couleurs[y.getId()]==couleur){
+						couleur=couleur+1;
+					}
+
+				}
+				while (couleursVoisins(x,couleurs).contains(couleur)){
+					couleur=couleur+1;
+				}
+				couleurs[x.getId()]=couleur;
+			}
+
+			for(int i=0;i<couleurs.length;i++){
+				System.out.println(valeurs.get(i).getId()+" : " +couleurs[valeurs.get(i).getId()]+" ");
+
+			}
+
+
+			return max(couleurs);
+
+	 }
+	
+	 
+	 public LinkedList<Noeud> listNoeudDegreCroissant(){
+			LinkedList<Noeud> valeurs=new LinkedList<>();
+
+			LinkedList<Noeud> mesNoeuds=new LinkedList<>();
+			for(Noeud n: hmap.values()){
+				mesNoeuds.add(n);
+
+			}
+			while (valeurs.size()<hmap.size()) {
+				Noeud max=mesNoeuds.getFirst();
+				for (int i = 0; i < mesNoeuds.size(); i++) {
+					
+					// la meme idee comme la methode degre decroissant, sauf que ici on veut la degre plus petit
+					if (mesNoeuds.get(i).getSuccesseurs().size() < max.getSuccesseurs().size()) {
+						max = mesNoeuds.get(i);
+
+					}
+				}
+				mesNoeuds.remove(max);
+				valeurs.add(max);
+			}
+
+			return valeurs;
+
+		}
 
     /**
      * methode permettant le calculer
